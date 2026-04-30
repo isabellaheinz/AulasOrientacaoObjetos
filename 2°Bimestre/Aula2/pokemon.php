@@ -9,21 +9,27 @@ class Pokemon {
     public $ataque;
     public $defesa;
     public $velocidade;
+    public $quantExperiencia;
 
     function batalhar() {
 
         echo "Pokemon " . $this->nome . " está iniciando uma batalha! \n";
 
         $força = $this->ataque + $this->defesa + $this->velocidade;
-        echo "Sua força está avaliada em " . $força;
+        echo "Sua força está avaliada em " . $força . "\n";
 
         if($força > 25){
             echo "Seu pokemon ganhou a batalha. Parabéns!";
             $this->aumentarExperiencia();
-        }
-        else($força < 25) {
+        } else if($força < 25) {
             echo "Infelizmente seu pokemon perdeu a batalha.";
         }
+
+        if($this->experiencia > $this->quantExperiencia) {
+            $this->aumentarNivel();
+        }
+
+        $this->imprimirAtributos();
     }
 
     function aumentarNivel () {
@@ -33,6 +39,9 @@ class Pokemon {
         $this->ataque += 4;
         $this->defesa += 2;
         $this->velocidade += rand(1,4);
+        echo "Você evoluiu 1 nível!\n";
+
+        $this->quantExperiencia += 35;
     }
 
     function aumentarExperiencia() {
@@ -58,6 +67,7 @@ $pokemon1->vida = rand(10,20);
 $pokemon1->ataque = rand(5,15);
 $pokemon1->defesa = rand(4,8);
 $pokemon1->velocidade = rand(8,20);
+$pokemon1->quantExperiencia = 42;
 
 $pokemon2 = new Pokemon;
 
@@ -69,8 +79,24 @@ $pokemon2->vida = rand(10,20);
 $pokemon2->ataque = rand(5,15);
 $pokemon2->defesa = rand(4,8);
 $pokemon2->velocidade = rand(8,20);
+$pokemon2->quantExperiencia = 42;
+
+$opcao = 0;
+
+echo "Escolha um pokemon para utilizar: (Utilize os números da opção) \n";
+echo "1- " . $pokemon1->nome > "\n";
+echo "2- " . $pokemon2->nome > "\n";
+
+echo "Selecione uma das opções abaixo: \n";
+echo 
 
 
-$pokemon1->imprimirAtributos();
-
-
+switch ($opcao) {
+    case 'value':
+        # code...
+        break;
+    
+    default:
+        # code...
+        break;
+}
