@@ -10,19 +10,30 @@ class Pokemon {
     public $defesa;
     public $velocidade;
     public $quantExperiencia;
+    public $quantForca;
+
+    private $perdas = 0;
+
 
     function batalhar() {
 
-        echo "Pokemon " . $this->nome . " está iniciando uma batalha! \n";
+        echo "\nPokemon " . $this->nome . " está iniciando uma batalha! \n";
 
-        $força = $this->ataque + $this->defesa + $this->velocidade;
-        echo "Sua força está avaliada em " . $força . "\n";
 
-        if($força > 25){
-            echo "Seu pokemon ganhou a batalha. Parabéns!";
+        echo "Sua força está avaliada em " . $this->quantForca . "\n";
+
+        if($this->quantForca > 25){
+            echo "Seu pokemon ganhou a batalha. Parabéns!\n";
             $this->aumentarExperiencia();
-        } else if($força < 25) {
-            echo "Infelizmente seu pokemon perdeu a batalha.";
+
+        } else if($this->quantForca < 25) {
+            echo "Infelizmente seu pokemon perdeu a batalha.\n";
+
+            $this->perdas++;
+
+            if ($this->perdas == 2){
+                $this->quantForca += 9;
+            }
         }
 
         if($this->experiencia > $this->quantExperiencia) {
@@ -42,10 +53,11 @@ class Pokemon {
         echo "Você evoluiu 1 nível!\n";
 
         $this->quantExperiencia += 35;
+        $this->quantForca += rand(5,12);
     }
 
     function aumentarExperiencia() {
-        $this->experiencia = rand(30,50);
+        $this->experiencia += rand(30,50);
     }
 
     function imprimirAtributos(){
@@ -68,6 +80,7 @@ $pokemon1->ataque = rand(5,15);
 $pokemon1->defesa = rand(4,8);
 $pokemon1->velocidade = rand(8,20);
 $pokemon1->quantExperiencia = 42;
+$pokemon1->quantForca = $pokemon1->ataque + $pokemon1->defesa + $pokemon1->velocidade;
 
 $pokemon2 = new Pokemon;
 
@@ -78,25 +91,56 @@ $pokemon2->nivel = 1;
 $pokemon2->vida = rand(10,20);
 $pokemon2->ataque = rand(5,15);
 $pokemon2->defesa = rand(4,8);
-$pokemon2->velocidade = rand(8,20);
+$pokemon2->velocidade = 8;
 $pokemon2->quantExperiencia = 42;
-
-$opcao = 0;
-
-echo "Escolha um pokemon para utilizar: (Utilize os números da opção) \n";
-echo "1- " . $pokemon1->nome > "\n";
-echo "2- " . $pokemon2->nome > "\n";
-
-echo "Selecione uma das opções abaixo: \n";
-echo 
+$pokemon2->quantForca = $pokemon2->ataque + $pokemon2->defesa + $pokemon2->velocidade;
 
 
-switch ($opcao) {
-    case 'value':
-        # code...
+do{
+
+    echo "\nEscolha um pokemon para utilizar: (Utilize os números da opção) \n";
+    echo "1- " . $pokemon1->nome . "\n";
+    echo "2- " . $pokemon2->nome . "\n";
+    $pokemonEscolhido = readline();
+
+    echo "\nSelecione uma das opções abaixo: \n";
+    echo "1- Exibir dados do Pokemon. \n";
+    echo "2- Batalhar.\n";
+    echo "3- Sair\n";
+    $opcao = readline();
+
+    switch ($opcao) {
+    case 1:
+
+        if($pokemonEscolhido == 1) {
+            $pokemon1->imprimirAtributos();
+        }
+
+         if($pokemonEscolhido == 2) {
+            $pokemon2->imprimirAtributos();
+        }
+
+        break;
+
+    case 2:
+
+        if($pokemonEscolhido == 1) {
+            $pokemon1->batalhar();
+        }
+
+         if($pokemonEscolhido == 2) {
+            $pokemon2->batalhar();
+        }
         break;
     
+    case 3: 
+        echo "Saindo...\n";
+         break;
+
     default:
-        # code...
-        break;
-}
+        echo "Essa opção é inválida. \n";
+    }
+
+} while ($opcao != 3);
+
+
