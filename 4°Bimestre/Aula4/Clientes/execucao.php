@@ -43,11 +43,38 @@ do {
 
         case 3:
             $clientes = $clienteDao->Listar();
-            foreach($clientes as $c) {
+            if(count($clientes) > 0){
+                foreach($clientes as $c) {
                 echo $c . "\n";
+                }
+            } else {
+                echo "Não há clientes cadastrados.\n";
+            }
+            
+            break;
+
+        case 4:
+            $id = readline("Informe o id do cliente que você deseja buscar: ");
+            $clienteRetornado = $clienteDao->buscarId($id);
+            if( $clienteRetornado != null ) {
+                echo $clienteRetornado . "\n"; 
+            } else {
+                echo "Erro. Cliente não encontrado.\n";
             }
             break;
-        
+
+        case 5: 
+            $id = readline("Informe o id do cliente que você deseja excluir: ");
+            $clienteExiste = $clienteDao->buscarId($id);
+
+            if( $clienteExiste != null ) {
+                $clienteDao->excluir($id);
+                echo "Cliente excluido com sucesso.\n";
+            } else {
+                echo "Erro. Cliente não encontrado.\n";
+            }
+            break;
+
         case 0: 
             echo "Saindo...";
             break;
