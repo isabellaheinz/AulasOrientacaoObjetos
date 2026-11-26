@@ -83,4 +83,34 @@ class ClienteDAO {
 
         return $clientes;
     }
+
+    public function buscarId($idCliente) {
+        //retorna 1 objeto do cliente encontrado, 2 ou null caso nao encontre, 3 exibir os dados encontrado ou mensagem de nao encontrado
+
+        $sql = "SELECT * FROM clientes WHERE id = $idCliente";
+        $conexao = Conexao::getConexao();
+
+        $stm = $conexao->prepare($sql);
+        $stm->execute();
+
+        $dados = $stm->fetchAll();
+
+        if(count($dados) == 1){
+            $clientes = $this->Mapear($dados);
+        } else {
+            return null;
+        }
+        
+        return $clientes[0];
+    }
+
+    public function excluir($idCliente) {
+        
+        $sql = "DELETE FROM clientes WHERE id = $idCliente";
+        $conexao = Conexao::getConexao();
+
+        $stm = $conexao->prepare($sql);
+        $stm->execute();
+
+    }
 }
